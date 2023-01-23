@@ -34,11 +34,14 @@ namespace _2023_01_20_HW_WpfRevCalc_TPL
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string incomeFile = @"D:\FilesToRead\income.txt";
-            string outcomeFile = @"D:\FilesToRead\outcome.txt";
-            Parallel.Invoke(() => calcTotalIncome(incomeFile), () => calcTotalOutcome(outcomeFile));
-            MessageBox.Show($"Thread of Income calc task = {incomeTaskId}\nThread of Outcome calc task = {outcomeTaskId}");
-            textBoxTotal.Text = $"Прибыль: {(totalIncome - totalOutcome).ToString()}";
+            Task.Run(() =>
+            {
+                string incomeFile = @"D:\FilesToRead\income.txt";
+                string outcomeFile = @"D:\FilesToRead\outcome.txt";
+                Parallel.Invoke(() => calcTotalIncome(incomeFile), () => calcTotalOutcome(outcomeFile));
+                MessageBox.Show($"Thread of Income calc task = {incomeTaskId}\nThread of Outcome calc task = {outcomeTaskId}");
+                Dispatcher.Invoke(() => textBoxTotal.Text = $"Прибыль: {(totalIncome - totalOutcome).ToString()}");
+            });
         }
         void calcTotalIncome(string incomeFile)
         {
