@@ -38,12 +38,12 @@ namespace _2023_01_20_HW_WpfRevCalc_TPL
             {
                 string incomeFile = @"D:\FilesToRead\income.txt";
                 string outcomeFile = @"D:\FilesToRead\outcome.txt";
-                Parallel.Invoke(() => calcTotalIncome(incomeFile), () => calcTotalOutcome(outcomeFile));
+                Parallel.Invoke(() => CalcTotalIncome(incomeFile), () => CalcTotalOutcome(outcomeFile));
                 MessageBox.Show($"Thread of Income calc task = {incomeTaskId}\nThread of Outcome calc task = {outcomeTaskId}");
                 Dispatcher.Invoke(() => textBoxTotal.Text = $"Прибыль: {(totalIncome - totalOutcome).ToString()}");
             });
         }
-        void calcTotalIncome(string incomeFile)
+        void CalcTotalIncome(string incomeFile)
         {
             totalIncome = 0;
             object syncObject = new object();
@@ -55,7 +55,7 @@ namespace _2023_01_20_HW_WpfRevCalc_TPL
                 lock (syncObject) { totalIncome += decimal.Parse(line); }
             }
         }
-        void calcTotalOutcome(string outcomeFile)
+        void CalcTotalOutcome(string outcomeFile)
         {
             totalOutcome = 0;
             object syncObject = new object();
